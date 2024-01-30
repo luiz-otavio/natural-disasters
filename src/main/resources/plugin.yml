@@ -1,0 +1,8 @@
+name: NaturalDisaster
+version: 0.0.1-SNAPSHOT
+main: org.stellardev.minecraft.DisasterPlugin
+softdepend:
+  - PlaceholderAPI
+authors:
+  - StellarDev
+  - github.com/luiz-otavio

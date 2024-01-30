@@ -1,0 +1,47 @@
+settings:
+  chance_to_happen: 0.105 # 10.5%
+
+timer:
+  time: 120 # in seconds
+
+  show_method: 'default' # Currently just supports bossbar.
+
+  show_commands:
+    - 'title @a title EVERYTHING WILL HAPPEN!' # %player% + %time% are placeholders
+  end_commands:
+    - 'title @a title EVERYTHING IS HAPPENING!' # %player% + %time% are placeholders
+
+disasters:
+  meteor:
+    enabled: true
+
+    chance: 0.125 # 12.5%
+
+    filtered_coordinates: # -1 to disable this feature.
+      max_x: -1
+      max_y: -1
+      max_z: -1
+      min_x: -1
+      min_y: -1
+      min_z: -1
+
+    commands_when_appear: # %coords%, %coords_x%, %coords_y%, %coords_z% are placeholders.
+      - 'title @a say A meteor appeared on %coords%'
+
+  thunderstorm:
+    enabled: true
+
+    chance: 0.125 # 12.5%
+
+    random_near_lightning: true # If true, random lighting will be thrown over players within a range of distance
+    random_near_lightning_time: 30 # # If lighting is true, this is the time of the throwing process
+    random_near_lightning_max_distance: 15 # In blocks, the max distance from players to thrown the lighting
+    random_near_commands_time: 15 #  The time in seconds to execute near commands after the thunderstorm starts.
+    random_near_commands: # %random%, %random_x%, %random_y%, %random_z% are placeholders for the random player picked.
+      - 'summon zombie <random>'
+      - 'summon pig'
+      #...
+
+  random-commands:
+    spawns_creepers_randomly:
+      - 'summon Zombie @a'
