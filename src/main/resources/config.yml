@@ -1,5 +1,5 @@
 settings:
-  chance_to_happen: 0.105 # 10.5%
+  chance_to_happen: 0.105 # 10.5% | -1 to disable the chance and make it happen every time.
 
 timer:
   time: 120 # in seconds

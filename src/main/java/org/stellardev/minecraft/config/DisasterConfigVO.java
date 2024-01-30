@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
-import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.configuration.file.FileConfiguration;
 
 import java.util.List;
 
@@ -17,7 +17,7 @@ import java.util.List;
 @Setter
 public class DisasterConfigVO {
 
-    private final YamlConfiguration parent;
+    private final FileConfiguration parent;
 
     private final Settings settings;
     private final Timer timer;
