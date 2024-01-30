@@ -1,6 +1,5 @@
 package org.stellardev.minecraft.codec;
 
-import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -97,6 +96,7 @@ public class ConfigCodec {
         double chance = section.getDouble("chance", 0.1d);
         checkArgument(chance > 0 || chance == -1, "Chance cannot be negative or zero unless its -1");
 
+        boolean changeWeather = section.getBoolean("change_weather", false);
         boolean randomNearLighting = section.getBoolean("random_near_lighting", false);
 
         int lightingTime = section.getInt("random_near_lighting_time", 30);
@@ -111,20 +111,40 @@ public class ConfigCodec {
         List<String> commands = section.getStringList("random_near_commands");
         commands.replaceAll(string -> ChatColor.translateAlternateColorCodes('&', string));
 
-        return new DisasterConfigVO.Thunderstorm(enabled, chance,  randomNearLighting, lightingTime, maxDistance, commandsTime, commands);
+        return new DisasterConfigVO.Thunderstorm(
+          enabled,
+          chance,
+          changeWeather,
+          randomNearLighting,
+          lightingTime,
+          maxDistance,
+          commandsTime,
+          commands
+        );
     }
 
     private static DisasterConfigVO.RandomCommands buildRandomCommands(@NotNull ConfigurationSection section) {
-        List<DisasterConfigVO.RandomCommands.Command> commands = new ArrayList<>();
+        boolean enabled = section.getBoolean("enabled", false);
 
+        double chance = section.getDouble("chance", 0.1d);
+        checkArgument(chance > 0 || chance == -1, "Chance cannot be negative or zero unless its -1");
+
+        List<DisasterConfigVO.RandomCommands.Command> commands = new ArrayList<>();
         for (@NotNull String key : section.getKeys(false)) {
-            List<String> commandsKey = section.getStringList(key);
+            ConfigurationSection commandSection = section.getConfigurationSection(key);
+
+            requireNonNull(commandSection, "Cannot be null the section for this command.");
+
+            List<String> commandsKey = commandSection.getStringList("commands");
             commandsKey.replaceAll(string -> ChatColor.translateAlternateColorCodes('&', string));
 
-            commands.add(new DisasterConfigVO.RandomCommands.Command(commandsKey));
+            double targetChance = commandSection.getDouble("chance", 0.1d);
+            checkArgument(targetChance > 0 || targetChance == -1, "Chance cannot be negative or zero unless its -1");
+
+            commands.add(new DisasterConfigVO.RandomCommands.Command(targetChance, commandsKey));
         }
 
-        return new DisasterConfigVO.RandomCommands(commands);
+        return new DisasterConfigVO.RandomCommands(enabled, chance, commands);
     }
 
 }

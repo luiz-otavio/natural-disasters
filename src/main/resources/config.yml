@@ -7,9 +7,9 @@ timer:
   show_method: 'default' # Currently just supports bossbar.
 
   show_commands:
-    - 'title @a title EVERYTHING WILL HAPPEN!' # %player% + %time% are placeholders
+    - 'title @a title EVERYTHING WILL HAPPEN!'
   end_commands:
-    - 'title @a title EVERYTHING IS HAPPENING!' # %player% + %time% are placeholders
+    - 'title @a title EVERYTHING IS HAPPENING!'
 
 meteor:
   enabled: true
@@ -32,6 +32,8 @@ thunderstorm:
 
   chance: 0.125 # 12.5%
 
+  change_weather: false # If true, the weather will change to raining and disabled when it stops
+
   random_near_lightning: true # If true, random lighting will be thrown over players within a range of distance
   random_near_lightning_time: 30 # # If lighting is true, this is the time of the throwing process
   random_near_lightning_max_distance: 15 # In blocks, the max distance from players to thrown the lighting
@@ -39,8 +41,14 @@ thunderstorm:
   random_near_commands: # %random%, %random_x%, %random_y%, %random_z% are placeholders for the random player picked.
     - 'summon zombie <random>'
     - 'summon pig'
-    #...
 
 random_commands:
+  enabled: true
+
+  chance: 0.3 # 30%
+
   spawns_creepers_randomly:
-    - 'summon Zombie @a'
+    chance: 0.5 # 50%
+
+    commands:
+      - 'summon Zombie @a'

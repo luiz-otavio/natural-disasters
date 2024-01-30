@@ -88,6 +88,7 @@ public class DisasterConfigVO {
 
         private double chance;
 
+        private boolean changeWeather;
         private boolean randomNearLighting;
 
         private int lightingTime;
@@ -104,12 +105,18 @@ public class DisasterConfigVO {
     @Setter
     public static class RandomCommands {
 
+        private boolean enabled;
+
+        private double chance;
+
         private List<Command> commands;
 
         @AllArgsConstructor
         @Getter
         @Setter
         public static class Command {
+
+            private double chance;
 
             private List<String> commands;
 
