@@ -26,7 +26,7 @@ public class MeteorDisaster extends AbstractNaturalDisaster {
     private double currentX, currentY, currentZ;
 
     public MeteorDisaster(@NotNull DisasterConfigVO.Meteor meteor) {
-        super(meteor.isEnabled(), meteor.getChance());
+        super("meteor", meteor.isEnabled(), meteor.getChance());
 
         this.meteor = meteor;
     }

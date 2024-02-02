@@ -29,7 +29,7 @@ public class ThunderstormDisaster extends AbstractNaturalDisaster {
       @NotNull DisasterConfigVO.Thunderstorm thunderstorm,
       @NotNull DisasterConfigVO.Timer timer
     ) {
-        super(thunderstorm.isEnabled(), thunderstorm.getChance());
+        super("thunderstorm", thunderstorm.isEnabled(), thunderstorm.getChance());
 
         this.thunderstorm = thunderstorm;
         this.timer = timer;

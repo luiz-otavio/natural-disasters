@@ -8,6 +8,7 @@ import org.bukkit.boss.BarStyle;
 import org.bukkit.boss.BossBar;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.stellardev.minecraft.config.DisasterConfigVO;
 import org.stellardev.minecraft.disaster.NaturalDisaster;
 import org.stellardev.minecraft.registry.DisasterRegistry;
@@ -77,56 +78,69 @@ public class DisasterTimerHandlerTask implements Runnable {
             }
         }
 
-        configVO.getTimer()
-          .getEndCommands()
-          .forEach(execute -> {
-              if (
-                Bukkit.getPluginManager()
-                  .isPluginEnabled("PlaceholderAPI")
-              ) {
-                  for (@NotNull Player player : Bukkit.getOnlinePlayers()) {
-                      Bukkit.dispatchCommand(
-                        Bukkit.getConsoleSender(),
-                        PlaceholderAPI.setPlaceholders(player, execute)
-                      );
-                  }
-              } else {
-                  for (@NotNull Player player : Bukkit.getOnlinePlayers()) {
-                      Bukkit.dispatchCommand(
-                        Bukkit.getConsoleSender(),
-                        execute.replaceAll("%player%", player.getName())
-                      );
-                  }
-              }
-          });
+        handle(null);
+    }
 
-        double totalWeight = disasterRegistry.getNaturalDisasters()
-          .stream()
-          .mapToDouble(NaturalDisaster::getChance)
-          .sum();
-
-        double randomWeight = THREAD_LOCAL_RANDOM.nextDouble() * totalWeight,
-          currentWeight = 0d;
-
-        NaturalDisaster next = null;
-        for (@NotNull NaturalDisaster naturalDisaster : disasterRegistry.getNaturalDisasters()) {
-            if (!naturalDisaster.isEnabled()) {
-                continue;
+    public void handle(@Nullable NaturalDisaster naturalDisaster) {
+        if (naturalDisaster != null) {
+            if (current != null) {
+                current.onStop();
+                current = null;
             }
 
-            currentWeight += naturalDisaster.getChance();
-            if (currentWeight >= randomWeight) {
-                next = naturalDisaster;
-                break;
+            configVO.getTimer()
+              .getEndCommands()
+              .forEach(execute -> {
+                  if (
+                    Bukkit.getPluginManager()
+                      .isPluginEnabled("PlaceholderAPI")
+                  ) {
+                      for (@NotNull Player player : Bukkit.getOnlinePlayers()) {
+                          Bukkit.dispatchCommand(
+                            Bukkit.getConsoleSender(),
+                            PlaceholderAPI.setPlaceholders(player, execute)
+                          );
+                      }
+                  } else {
+                      for (@NotNull Player player : Bukkit.getOnlinePlayers()) {
+                          Bukkit.dispatchCommand(
+                            Bukkit.getConsoleSender(),
+                            execute.replaceAll("%player%", player.getName())
+                          );
+                      }
+                  }
+              });
+
+            naturalDisaster.execute();
+            current = naturalDisaster;
+
+            reset(false);
+        } else {
+            double totalWeight = disasterRegistry.getNaturalDisasters()
+              .stream()
+              .mapToDouble(NaturalDisaster::getChance)
+              .sum();
+
+            double randomWeight = THREAD_LOCAL_RANDOM.nextDouble() * totalWeight,
+              currentWeight = 0d;
+
+            NaturalDisaster next = null;
+            for (@NotNull NaturalDisaster disaster : disasterRegistry.getNaturalDisasters()) {
+                if (!disaster.isEnabled()) {
+                    continue;
+                }
+
+                currentWeight += naturalDisaster.getChance();
+                if (currentWeight >= randomWeight) {
+                    next = disaster;
+                    break;
+                }
+            }
+
+            if (next != null) {
+                handle(next);
             }
         }
-
-        requireNonNull(next, "Natural disaster couldn't get into the timer.");
-
-        next.execute();
-        current = next;
-
-        reset(false);
     }
 
     private void reset(boolean thrown) {

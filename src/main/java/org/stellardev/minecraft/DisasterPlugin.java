@@ -5,6 +5,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.stellardev.minecraft.codec.ConfigCodec;
+import org.stellardev.minecraft.command.ForceDisasterCommand;
 import org.stellardev.minecraft.config.DisasterConfigVO;
 import org.stellardev.minecraft.registry.DisasterRegistry;
 import org.stellardev.minecraft.task.DisasterTimerHandlerTask;
@@ -22,6 +23,8 @@ public class DisasterPlugin extends JavaPlugin {
 
     private DisasterConfigVO disasterConfigVO;
     private DisasterRegistry disasterRegistry;
+
+    private DisasterTimerHandlerTask handlerTask;
 
     @Override
     public void onLoad() {
@@ -41,10 +44,13 @@ public class DisasterPlugin extends JavaPlugin {
         Bukkit.getScheduler()
           .runTaskTimer(
             this,
-            new DisasterTimerHandlerTask(disasterConfigVO, disasterRegistry),
+            handlerTask = new DisasterTimerHandlerTask(disasterConfigVO, disasterRegistry),
             20L,
             20L
           );
+
+        Bukkit.getCommandMap()
+          .register("forcedisaster", new ForceDisasterCommand(this));
     }
 
     @Override

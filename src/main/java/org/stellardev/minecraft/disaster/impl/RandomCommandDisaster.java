@@ -22,7 +22,7 @@ public class RandomCommandDisaster extends AbstractNaturalDisaster {
     private final DisasterConfigVO.RandomCommands randomCommands;
 
     public RandomCommandDisaster(@NotNull DisasterConfigVO.RandomCommands randomCommands) {
-        super(randomCommands.isEnabled(), (double) 1 / randomCommands.getCommands().size());
+        super("random-commands", randomCommands.isEnabled(), (double) 1 / randomCommands.getCommands().size());
 
         this.randomCommands = randomCommands;
     }
