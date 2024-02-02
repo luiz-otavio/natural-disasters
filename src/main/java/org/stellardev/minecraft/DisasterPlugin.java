@@ -7,6 +7,9 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.stellardev.minecraft.codec.ConfigCodec;
 import org.stellardev.minecraft.command.ForceDisasterCommand;
 import org.stellardev.minecraft.config.DisasterConfigVO;
+import org.stellardev.minecraft.disaster.impl.MeteorDisaster;
+import org.stellardev.minecraft.disaster.impl.RandomCommandDisaster;
+import org.stellardev.minecraft.disaster.impl.ThunderstormDisaster;
 import org.stellardev.minecraft.registry.DisasterRegistry;
 import org.stellardev.minecraft.task.DisasterTimerHandlerTask;
 
@@ -40,6 +43,14 @@ public class DisasterPlugin extends JavaPlugin {
     @Override
     public void onEnable() {
         disasterRegistry = new DisasterRegistry();
+        disasterRegistry.addAll(
+          new MeteorDisaster(disasterConfigVO.getMeteor()),
+          new ThunderstormDisaster(
+            disasterConfigVO.getThunderstorm(),
+            disasterConfigVO.getTimer()
+          ),
+          new RandomCommandDisaster(disasterConfigVO.getRandomCommands())
+        );
 
         Bukkit.getScheduler()
           .runTaskTimer(
