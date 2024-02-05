@@ -20,7 +20,6 @@ import java.util.concurrent.ThreadLocalRandom;
  * @author Luiz O. F. Corrêa
  * @since 30/01/2024
  **/
-@RequiredArgsConstructor
 public class DisasterTimerHandlerTask implements Runnable {
 
     private static final ThreadLocalRandom THREAD_LOCAL_RANDOM = ThreadLocalRandom.current();
@@ -28,8 +27,18 @@ public class DisasterTimerHandlerTask implements Runnable {
     private final DisasterConfigVO configVO;
     private final DisasterRegistry disasterRegistry;
 
-    private int currentTime = configVO.getTimer()
-      .getTime();
+    private int currentTime;
+
+    public DisasterTimerHandlerTask(
+      @NotNull DisasterConfigVO configVO,
+      @NotNull DisasterRegistry disasterRegistry
+    ) {
+        this.configVO = configVO;
+        this.disasterRegistry = disasterRegistry;
+
+        this.currentTime = configVO.getTimer()
+          .getTime();
+    }
 
     private BossBar bossBar;
 
