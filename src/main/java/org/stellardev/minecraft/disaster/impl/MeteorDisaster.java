@@ -61,9 +61,9 @@ public class MeteorDisaster extends AbstractNaturalDisaster {
                   command.replaceAll(
                       "%coords%",
                       "%.2f, %.2f, %.2f".formatted(currentX, currentY, currentZ)
-                    ).replaceAll("%coords_x%", valueOf(currentX))
-                    .replaceAll("%coords_y%", valueOf(currentY))
-                    .replaceAll("%coords_z%", valueOf(currentZ))
+                    ).replaceAll("%natural_disaster_coords_x%", valueOf(currentX))
+                    .replaceAll("%natural_disaster_coords_y%", valueOf(currentY))
+                    .replaceAll("%natural_disaster_coords_z%", valueOf(currentZ))
                 );
             }
         }

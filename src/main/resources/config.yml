@@ -24,8 +24,8 @@ meteor:
     min_y: -1
     min_z: -1
 
-  commands_when_appear: # %coords%, %coords_x%, %coords_y%, %coords_z% are placeholders.
-    - 'title @a say A meteor appeared on %coords%'
+  commands_when_appear: # %natural_disaster_coords%, %natural_disaster_coords_x%, %natural_disaster_coords_y%, %natural_disaster_coords_z% are placeholders.
+    - 'title @a say A meteor appeared on %natural_disaster_coords%'
 
 thunderstorm:
   enabled: true
@@ -38,7 +38,7 @@ thunderstorm:
   random_near_lightning_time: 30 # # If lighting is true, this is the time of the throwing process
   random_near_lightning_max_distance: 15 # In blocks, the max distance from players to thrown the lighting
   random_near_commands_time: 15 #  The time in seconds to execute near commands after the thunderstorm starts.
-  random_near_commands: # %random%, %random_x%, %random_y%, %random_z% are placeholders for the random player picked.
+  random_near_commands: # %natural_disaster_random%, %natural_disaster_random_x%, %natural_disaster_random_y%, %natural_disaster_random_z% are placeholders for the random player picked.
     - 'summon zombie <random>'
     - 'summon pig'
 

@@ -47,10 +47,10 @@ public class ThunderstormCommandsHandlerTask extends BukkitRunnable {
 
                     Bukkit.dispatchCommand(
                       Bukkit.getConsoleSender(),
-                      command.replaceAll("%random%", chosenPlayer.getName())
-                        .replaceAll("%random_x%", valueOf(location.getBlockX()))
-                        .replaceAll("%random_y%", valueOf(location.getBlockY()))
-                        .replaceAll("%random_z%", valueOf(location.getBlockZ()))
+                      command.replaceAll("%natural_disaster_random%", chosenPlayer.getName())
+                        .replaceAll("%natural_disaster_random_x%", valueOf(location.getBlockX()))
+                        .replaceAll("%natural_disaster_random_y%", valueOf(location.getBlockY()))
+                        .replaceAll("%natural_disaster_random_z%", valueOf(location.getBlockZ()))
                     );
                 }
             }

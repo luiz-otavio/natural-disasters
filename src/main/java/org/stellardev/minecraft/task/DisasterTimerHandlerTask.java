@@ -1,5 +1,6 @@
 package org.stellardev.minecraft.task;
 
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.Bukkit;
@@ -14,8 +15,6 @@ import org.stellardev.minecraft.disaster.NaturalDisaster;
 import org.stellardev.minecraft.registry.DisasterRegistry;
 
 import java.util.concurrent.ThreadLocalRandom;
-
-import static java.util.Objects.requireNonNull;
 
 /**
  * @author Luiz O. F. Corrêa
@@ -34,6 +33,7 @@ public class DisasterTimerHandlerTask implements Runnable {
 
     private BossBar bossBar;
 
+    @Getter
     private NaturalDisaster current;
 
     @Override
@@ -105,7 +105,7 @@ public class DisasterTimerHandlerTask implements Runnable {
                       for (@NotNull Player player : Bukkit.getOnlinePlayers()) {
                           Bukkit.dispatchCommand(
                             Bukkit.getConsoleSender(),
-                            execute.replaceAll("%player%", player.getName())
+                            execute.replaceAll("%natural_disaster_player%", player.getName())
                           );
                       }
                   }
@@ -168,7 +168,7 @@ public class DisasterTimerHandlerTask implements Runnable {
                   for (@NotNull Player player : Bukkit.getOnlinePlayers()) {
                       Bukkit.dispatchCommand(
                         Bukkit.getConsoleSender(),
-                        execute.replaceAll("%player%", player.getName())
+                        execute.replaceAll("%natural_disaster_player%", player.getName())
                       );
                   }
               }
